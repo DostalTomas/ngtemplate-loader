@@ -1,21 +1,21 @@
 {
-  "name": "ngtemplate-loader",
+  "name": "simple-ngtemplate-loader",
   "version": "2.0.1",
-  "description": "Include AngularJS templates in the Webpack bundle and preload the template cache.",
+  "description": "Include AngularJS templates in the Webpack bundle WITHOUT preload the template cache. Forked from https://github.com/WearyMonkey/ngtemplate-loader",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/webpack/bin/webpack.js --config=test/webpack.config.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/WearyMonkey/ngtemplate-loader.git"
+    "url": "git://github.com/DostalTomas/simple-ngtemplate-loader.git"
   },
   "keywords": [
     "webpack",
     "angularjs",
     "loader"
   ],
-  "author": "WearyMonkey",
+  "author": "Tomas Dostal",
   "licenses": [
     {
       "type": "MIT",

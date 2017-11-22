@@ -6,10 +6,8 @@ module.exports = function (content) {
     this.cacheable && this.cacheable();
 
     var options = loaderUtils.getOptions(this) || {};
-    var ngModule = getAndInterpolateOption.call(this, 'module', 'ng'); // ng is the global angular module that does not need to explicitly required
     var relativeTo = getAndInterpolateOption.call(this, 'relativeTo', '');
     var prefix = getAndInterpolateOption.call(this, 'prefix', '');
-    var requireAngular = !!options.requireAngular || false;
     var absolute = false;
     var pathSep = options.pathSep || '/';
     var resource = this.resource;
@@ -43,21 +41,8 @@ module.exports = function (content) {
         .filter(Boolean)
         .join(pathSep)
         .replace(new RegExp(escapeRegExp(pathSep) + '+', 'g'), pathSep);
-    var html;
 
-    if (content.match(/^module\.exports/)) {
-        var firstQuote = findQuote(content, false);
-        var secondQuote = findQuote(content, true);
-        html = content.substr(firstQuote, secondQuote - firstQuote + 1);
-    } else {
-        html = content;
-    }
-
-    return "var path = '"+jsesc(filePath)+"';\n" +
-        "var html = " + html + ";\n" +
-        (requireAngular ? "var angular = require('angular');\n" : "window.") +
-        "angular.module('" + ngModule + "').run(['$templateCache', function(c) { c.put(path, html) }]);\n" +
-        "module.exports = path;";
+    return "module.exports = '"+jsesc(filePath)+"';\n";
 
     function getAndInterpolateOption(optionKey, def) {
         return options[optionKey]
@@ -67,17 +52,6 @@ module.exports = function (content) {
                 regExp: options[optionKey + 'RegExp'] || options['regExp']
             })
             : def
-    }
-
-    function findQuote(content, backwards) {
-        var i = backwards ? content.length - 1 : 0;
-        while (i >= 0 && i < content.length) {
-            if (content[i] === '"' || content[i] === "'") {
-                return i;
-            }
-            i += backwards ? -1 : 1;
-        }
-        return -1;
     }
 
     // source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
