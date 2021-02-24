@@ -15,6 +15,9 @@
     "angularjs",
     "loader"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Tomas Dostal",
   "licenses": [
     {
